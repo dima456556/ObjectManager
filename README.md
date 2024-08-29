@@ -1,5 +1,6 @@
 Сборка:<br />
 1.Открыть проект ObjectManager.sln в Visual Studio 2022<br />
+2.Конфигурация - Release x64<br />
 2.Собрать проект<br />
 
 Запуск:<br />
