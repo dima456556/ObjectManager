@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Object Manager</title>
+</head>
+<body>
+    <h1>Object Manager</h1>
+
+    <h2>Add Object</h2>
+    <form id="addObjectForm">
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="x">Coordinate X:</label><br>
+        <input type="number" id="x" name="x" required step="any"><br><br>
+
+        <label for="y">Coordinate Y:</label><br>
+        <input type="number" id="y" name="y" required step="any"><br><br>
+
+        <label for="type">Type:</label><br>
+        <input type="text" id="type" name="type" required><br><br>
+
+        <input type="button" value="Add Object" onclick="addObject()">
+    </form>
+
+    <h2>Group and Sort Objects</h2>
+
+    <button onclick="groupBy('group_by_distance')">Group by Distance</button><br><br>
+    <button onclick="groupBy('group_by_name')">Group by Name</button><br><br>
+
+    <label for="threshold">Threshold (for Group by Type):</label><br>
+    <input type="number" id="threshold" name="threshold" step="1" value="10"><br><br>
+    <button onclick="groupBy('group_by_type', { threshold: document.getElementById('threshold').value })">Group by Type</button><br><br>
+
+    <button onclick="groupBy('group_by_time')">Group by Creation Time</button><br><br>
+
+    <h2>All Objects</h2>
+    <button onclick="fetchObjects()">Get All Objects</button><br><br>
+
+    <div id="results"></div>
+
+    <script>
+        // Функция для добавления объекта
+        function addObject() {
+            const form = document.getElementById('addObjectForm');
+            const formData = new URLSearchParams(new FormData(form)).toString();
+
+            fetch('http://localhost:8080/add_object', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: formData
+            })
+            .then(response => response.text())
+            .then(result => {
+                alert(result);
+            })
+            .catch(error => {
+                alert('Error adding object');
+            });
+        }
+
+        // Функция для выполнения запросов группировки и сортировки
+        function groupBy(endpoint, data = {}) {
+            let formData = new URLSearchParams();
+            if (data.threshold) {
+                formData.append('threshold', data.threshold);
+            }
+
+            fetch(`http://localhost:8080/${endpoint}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+                },
+                body: formData.toString()
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('results').innerHTML = data;
+            })
+            .catch(error => {
+                alert('Error grouping objects');
+            });
+        }
+
+        // Функция для получения всех объектов
+        function fetchObjects() {
+            fetch('http://localhost:8080/get_objects', {
+                method: 'GET'
+            })
+            .then(response => response.text())
+            .then(data => {
+                document.getElementById('results').innerText = data;
+            })
+            .catch(error => {
+                alert('Error fetching objects');
+            });
+        }
+    </script>
+</body>
+</html>
