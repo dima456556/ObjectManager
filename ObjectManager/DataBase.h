@@ -4,7 +4,7 @@
 
 class Object;
 
-//интерфейс позволит использовать разные базы данных
+//РёРЅС‚РµСЂС„РµР№СЃ РїРѕР·РІРѕР»РёС‚ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ СЂР°Р·РЅС‹Рµ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
 class Database {
 public:
     virtual void connect(const std::string& connectionString) = 0;

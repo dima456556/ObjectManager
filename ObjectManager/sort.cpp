@@ -27,7 +27,7 @@ std::map<std::string, std::vector<Object>> groupByDistance(const std::vector<Obj
         groups[groupName].push_back(obj);
     }
 
-    //Сортировка внутри групп по дистанции
+    //РЎРѕСЂС‚РёСЂРѕРІРєР° РІРЅСѓС‚СЂРё РіСЂСѓРїРї РїРѕ РґРёСЃС‚Р°РЅС†РёРё
     for (auto& [groupName, groupObjects] : groups) {
         std::sort(groupObjects.begin(), groupObjects.end(), [](const Object& a, const Object& b) {
             return a.distanceFromOrigin() < b.distanceFromOrigin();
@@ -54,7 +54,7 @@ std::map<std::string, std::vector<Object>> groupByName(const std::vector<Object>
         groups[groupName].push_back(obj);
     }
     
-    //сортировка внутри групп по имени
+    //СЃРѕСЂС‚РёСЂРѕРІРєР° РІРЅСѓС‚СЂРё РіСЂСѓРїРї РїРѕ РёРјРµРЅРё
     for (auto& [groupName, groupObjects] : groups) {
         std::sort(groupObjects.begin(), groupObjects.end(), [](const Object& a, const Object& b) {
             return a.name < b.name;
@@ -83,7 +83,7 @@ std::map<std::string, std::vector<Object>> groupByType(const std::vector<Object>
         }
     }
 
-    //сортировка внутри групп по имени
+    //СЃРѕСЂС‚РёСЂРѕРІРєР° РІРЅСѓС‚СЂРё РіСЂСѓРїРї РїРѕ РёРјРµРЅРё
     for (auto& [groupName, groupObjects] : groups) {
         std::sort(groupObjects.begin(), groupObjects.end(), [](const Object& a, const Object& b) {
             return a.name < b.name;
@@ -131,7 +131,7 @@ std::map<std::string, std::vector<Object>> groupByCreationTime(const std::vector
         groups[groupName].push_back(obj);
     }
     
-    //сортировка внутри групп по времени создания
+    //СЃРѕСЂС‚РёСЂРѕРІРєР° РІРЅСѓС‚СЂРё РіСЂСѓРїРї РїРѕ РІСЂРµРјРµРЅРё СЃРѕР·РґР°РЅРёСЏ
     for (auto& [groupName, groupObjects] : groups) {
         std::sort(groupObjects.begin(), groupObjects.end(), [](const Object& a, const Object& b) {
             return a.creationTime < b.creationTime;

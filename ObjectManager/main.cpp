@@ -5,7 +5,7 @@
 #include <memory>
 #include <sstream>
 
-// Добавление заголовков CORS
+// Р”РѕР±Р°РІР»РµРЅРёРµ Р·Р°РіРѕР»РѕРІРєРѕРІ CORS
 void add_cors_headers(crow::response& res) {
     res.add_header("Access-Control-Allow-Origin", "*");
     res.add_header("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
@@ -17,13 +17,13 @@ int main() {
 
     std::unique_ptr<Database> db;
 
-    // Выбор базы данных
+    // Р’С‹Р±РѕСЂ Р±Р°Р·С‹ РґР°РЅРЅС‹С…
     std::string dbType = "sqlite"; 
-    //Можно сделать через переменные окружения например:
+    //РњРѕР¶РЅРѕ СЃРґРµР»Р°С‚СЊ С‡РµСЂРµР· РїРµСЂРµРјРµРЅРЅС‹Рµ РѕРєСЂСѓР¶РµРЅРёСЏ РЅР°РїСЂРёРјРµСЂ:
     //const char* dbType = std::getenv("DB_TYPE");
     if (dbType == "sqlite") {
         db = std::make_unique<SQLiteDatabase>();
-        db->connect("objects.db"); //если файла базы данных нет то он создастся в текущем каталоге
+        db->connect("objects.db"); //РµСЃР»Рё С„Р°Р№Р»Р° Р±Р°Р·С‹ РґР°РЅРЅС‹С… РЅРµС‚ С‚Рѕ РѕРЅ СЃРѕР·РґР°СЃС‚СЃСЏ РІ С‚РµРєСѓС‰РµРј РєР°С‚Р°Р»РѕРіРµ
     }
 
     auto handle_options = [](const crow::request&) {
@@ -33,7 +33,7 @@ int main() {
         return res;
         };
 
-    // Обработка запросов добавления объектов
+    // РћР±СЂР°Р±РѕС‚РєР° Р·Р°РїСЂРѕСЃРѕРІ РґРѕР±Р°РІР»РµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ
     CROW_ROUTE(app, "/add_object")
         .methods("OPTIONS"_method)
         (handle_options);
@@ -45,7 +45,7 @@ int main() {
         add_cors_headers(res);
         res.set_header("Content-Type", "text/html; charset=UTF-8");
 
-        // Парсим данные формы
+        // РџР°СЂСЃРёРј РґР°РЅРЅС‹Рµ С„РѕСЂРјС‹
         std::string body = req.body;
         std::string name, x, y, type;
         std::istringstream body_stream(body);
@@ -54,13 +54,13 @@ int main() {
         std::getline(body_stream, y, '&');
         std::getline(body_stream, type);
 
-        // Удаляем префиксы `name=`, `x=`, и т.д.
+        // РЈРґР°Р»СЏРµРј РїСЂРµС„РёРєСЃС‹ `name=`, `x=`, Рё С‚.Рґ.
         name = name.substr(name.find('=') + 1);
         x = x.substr(x.find('=') + 1);
         y = y.substr(y.find('=') + 1);
         type = type.substr(type.find('=') + 1);
 
-        // Преобразуем в нужные типы данных
+        // РџСЂРµРѕР±СЂР°Р·СѓРµРј РІ РЅСѓР¶РЅС‹Рµ С‚РёРїС‹ РґР°РЅРЅС‹С…
         double x_val = std::stod(x);
         double y_val = std::stod(y);
         auto time = std::time(nullptr);
@@ -73,7 +73,7 @@ int main() {
         return res;
             });
 
-    // Обработка запросов получения объектов
+    // РћР±СЂР°Р±РѕС‚РєР° Р·Р°РїСЂРѕСЃРѕРІ РїРѕР»СѓС‡РµРЅРёСЏ РѕР±СЉРµРєС‚РѕРІ
     CROW_ROUTE(app, "/get_objects")
         .methods("OPTIONS"_method)
         (handle_options);
@@ -94,7 +94,7 @@ int main() {
         return res;
             });
 
-    // Группировка по расстоянию
+    // Р“СЂСѓРїРїРёСЂРѕРІРєР° РїРѕ СЂР°СЃСЃС‚РѕСЏРЅРёСЋ
     CROW_ROUTE(app, "/group_by_distance")
         .methods("OPTIONS"_method)
         (handle_options);
@@ -121,7 +121,7 @@ int main() {
         return res;
             });
 
-    // Группировка по имени
+    // Р“СЂСѓРїРїРёСЂРѕРІРєР° РїРѕ РёРјРµРЅРё
     CROW_ROUTE(app, "/group_by_name")
         .methods("OPTIONS"_method)
         (handle_options);
@@ -148,7 +148,7 @@ int main() {
         return res;
             });
 
-    // Группировка по типу
+    // Р“СЂСѓРїРїРёСЂРѕРІРєР° РїРѕ С‚РёРїСѓ
     CROW_ROUTE(app, "/group_by_type")
         .methods("OPTIONS"_method)
         (handle_options);
@@ -184,7 +184,7 @@ int main() {
         return res;
             });
 
-    // Группировка по времени создания
+    // Р“СЂСѓРїРїРёСЂРѕРІРєР° РїРѕ РІСЂРµРјРµРЅРё СЃРѕР·РґР°РЅРёСЏ
     CROW_ROUTE(app, "/group_by_time")
         .methods("OPTIONS"_method)
         (handle_options);
